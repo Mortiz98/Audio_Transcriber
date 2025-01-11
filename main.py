@@ -24,12 +24,15 @@ async def transcribe_audio(file: UploadFile = File(...)):
     Returns:
         TranscriptionResult: Texto transcrito del audio.
     """
-    if file.content_type not in ["audio/mpeg", "audio/wav", "audio/x-wav", "audio/mp3"]:
+    if file.content_type not in ["audio/mpeg", "audio/wav", "audio/x-wav", "audio/mp3","audio/opus"]:
         raise HTTPException(status_code=400, detail="Formato de archivo no soportado.")
 
     try:
         # Guardar el archivo temporalmente
-        with NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
+        file_extension = file.filename.split('.')[-1]
+        suffix = f".{file_extension}" if file_extension else ".mp3"
+        
+        with NamedTemporaryFile(delete=False, suffix=suffix) as temp_file:
             temp_file.write(await file.read())
             temp_file_path = temp_file.name
 
