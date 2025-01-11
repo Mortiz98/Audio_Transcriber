@@ -35,7 +35,7 @@ async def transcribe_audio(file: UploadFile = File(...)):
     Returns:
         TranscriptionResult: Texto transcrito del audio.
     """
-    if file.content_type not in ["audio/mpeg", "audio/wav", "audio/x-wav", "audio/mp3","audio/opus"]:
+    if file.content_type not in ["audio/mpeg", "audio/wav", "audio/x-wav", "audio/mp3","audio/opus", "audio/ogg"]:
         raise HTTPException(status_code=400, detail="Formato de archivo no soportado.")
 
     try:
